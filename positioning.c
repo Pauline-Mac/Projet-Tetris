@@ -45,7 +45,7 @@ int get_lowest_line(char game[10][10], int colomn, char tetrimo[4][4], int lowes
 	int ln =9;
 	while(ln >= 0){
 		if( game[ln][colomn] == '_'){
-			if ( check_room(game,colomn,ln,tetrimo[4][4], lowest_block_x, lowest_block_y) == 1){
+			if ( check_room(game,colomn,ln,tetrimo, lowest_block_x, lowest_block_y) == 1){
 				return ln;
 			}
 			else{
@@ -107,6 +107,6 @@ int main(int argc, char **argv)
 	
 	char cube[4][4] = {{'@','@','_','_'},{'@','@','_','_'},{'_','_','_','_'},{'_','_','_','_'}};
 	place_block(cube, game,1,1);
-	
+	display(game);
 	return 0;
 }	
