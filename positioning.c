@@ -24,28 +24,40 @@ void display(char tab[10][10]){
 }
 
 int check_room(char game[10][10], int colomn, int line, char tetrimo[4][4], int lowest_block_x, int lowest_block_y){
-	for (int i =0; i< 4; i++){
-		if( (game[line][colomn+i]!='_') || (tetrimo[lowest_block_x][lowest_block_y+i])){
-			int a =10;
+	// check if there is room for the whole tetrimimo
+	int place=1;
+	while (place==1){
+		for (int i =0; i< 4; i++){
+			for (int j= 0; j< 4 ;j++){
+				if (tetrimo[i][j] == '@' && game[i][j] == '@'){
+					place = 0;
+				}
+			}
 		}
 	}
+	return place;
 }
 
 
 int get_lowest_line(char game[10][10], int colomn, char tetrimo[4][4], int lowest_block_x, int lowest_block_y){
 	// This fonction return the index number of the lowest line that isn't already '@'
 	// If colomn is alredy full it returns -1
-	int check = 0;
+	int check = 0; 
 	int ln =10;
 	int i = 1;
 	while(i > 0){
 		if( game[ln][colomn] == '_'){
-			check_room(game,colomn,ln,tetrimo[4][4], lowest_block_x, lowest_block_y);
-			return ln;
+			if ( check_room(game,colomn,ln,tetrimo[4][4], lowest_block_x, lowest_block_y) == 1){
+				return ln;
+			}
+			else{
+				ln++;
+			}
 		}
 		else {
 			ln++;
 		}
+		
 	}
 	puts("Colomn already full");
 	return -1;
@@ -61,18 +73,17 @@ void place_block(char tetrimimo[4][4], int colomn, char game[10][10], int lowest
 	scanf("%d",&colomn);
 	// 1 tetrimimo is only composed of 4 blocks
 	int line;
-	int i =1;
-	for (int block =0; block < 4 ;block++){
-		do{
-			line = get_lowest_line(game, colomn + lowest_block_y, tetrimimo, lowest_block_x,lowest_block_y);
-			
-			if (line != -1 ){
-				int a = 10;
+	int i=1;
+	line = get_lowest_line(game, colomn + lowest_block_y, tetrimimo, lowest_block_x,lowest_block_y);
+	while(line!=-1){
+		for(int i=0; i< 4; i++){
+			for(int j = 0; j< 4; j++){
+				if (tetrimimo[i][j] == '@'){
+					game[i][j] = '@';
+				}
 			}
-		}while (i==0);
-			
-	}
-		
+		}
+	}						
 }
 
 	
