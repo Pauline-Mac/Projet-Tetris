@@ -23,15 +23,26 @@ void display(char tab[10][10]){
 	}
 }
 
-int get_lowest_line(char game[10][10], int colomn,char tetrimo[4](4], int lowest_block_x, int lowest_block_y){
+int check_room(char game[10][10], int colomn, int line, char tetrimo[4][4], int lowest_block_x, int lowest_block_y){
+	for (int i =0; i< 4; i++){
+		if( (game[line][colomn+i]!='_') || (tetrimo[lowest_block_x][lowest_block_y+i])){
+			int a =10;
+		}
+	}
+}
+
+
+int get_lowest_line(char game[10][10], int colomn, char tetrimo[4][4], int lowest_block_x, int lowest_block_y){
 	// This fonction return the index number of the lowest line that isn't already '@'
 	// If colomn is alredy full it returns -1
 	int check = 0;
 	int ln =10;
+	int i = 1;
 	while(i > 0){
 		if( game[ln][colomn] == '_'){
-			check_if_room_in_line_for_whole_tetrimo (colomn,ln,tetrimo[4](4], lowest_block_x, lowest_block_y);
+			check_room(game,colomn,ln,tetrimo[4][4], lowest_block_x, lowest_block_y);
 			return ln;
+		}
 		else {
 			ln++;
 		}
@@ -40,30 +51,30 @@ int get_lowest_line(char game[10][10], int colomn,char tetrimo[4](4], int lowest
 	return -1;
 }
 
-int check_if_room_in_line_for_whole_tetrimo (int colomn, int line, char tetrimo[4](4], int lowest_block_x, int lowest_block_y){
-	for (int i =0; i< 4, i++){
-		if( (game[line][colomn+i]!='_') || (tetrimoo[lowest_block_x][lowest_block_y+i])){
-			
-		
+
+
 		
 	
 
-void place_block(char tetrimimo[4][4], int colomn, char game[10][10], int lowest_block_x, int lowest block_y){
+void place_block(char tetrimimo[4][4], int colomn, char game[10][10], int lowest_block_x, int lowest_block_y){
 	puts("Choose colomn.");
 	scanf("%d",&colomn);
 	// 1 tetrimimo is only composed of 4 blocks
 	int line;
+	int i =1;
 	for (int block =0; block < 4 ;block++){
 		do{
-			line = get_lowest_line(game, colomn + lowest_block_y);
+			line = get_lowest_line(game, colomn + lowest_block_y, tetrimimo, lowest_block_x,lowest_block_y);
 			
 			if (line != -1 ){
-				
+				int a = 10;
 			}
+		}while (i==0);
 			
-			
+	}
 		
 }
+
 	
 	
 	
@@ -81,4 +92,4 @@ int main(int argc, char **argv)
 	display(game);
 	char cube[4][4] = {{'@','@','_','_'},{'@','@','_','_'},{'_','_','_','_'},{'_','_','_','_'}};
 	return 0;
-}
+}	
