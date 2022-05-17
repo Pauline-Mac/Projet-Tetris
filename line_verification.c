@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
 
 #define TAILLE 10
 
@@ -19,13 +21,14 @@ void eraser(char tab[][TAILLE], int ligne){
 }
 
 
-void descente_tab(char tab[][TAILLE]){
-	int j=TAILLE-1;
-	while(j>0){
-		for(int i=0;i<TAILLE;i++){
-			tab[j][i]=tab[j-1][i];
+void table_descent (char tab[][TAILLE], int ligne){
+	for(int i=ligne;i>0;i--){
+		for(int j=0;j<TAILLE;j++){
+			tab[i][j]=tab[i-1][j];
 		}
-		j--;
+	}
+	for(int j=0;j<TAILLE;j++){
+		tab[0][j]=' ';	
 	}
 }
 
@@ -43,7 +46,12 @@ int main(){
 	char tab[TAILLE][TAILLE];
 	for(int i=0;i<TAILLE;i++){
 		for(int j=0;j<TAILLE;j++){
-			tab[i][j]='@';
+			if (i==4)
+				tab[i][j]='@';
+			else if(j%2==0)
+				tab[i][j]='@';
+			else
+				tab[i][j]=' ';
 		}
 		puts("");
 	}
@@ -52,8 +60,10 @@ int main(){
 	for (int i=0;i<TAILLE;i++){
 		verif=verif_ligne(tab, i);
 		printf("%d\n", verif);
-		if(verif==1)
+		if(verif==1){
 			eraser(tab, i);
+			table_descent(tab, i);
+		}
 	}
 	affiche(tab);
 	
