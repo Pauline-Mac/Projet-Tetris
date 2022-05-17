@@ -29,7 +29,7 @@ int check_room(char game[10][10], int colomn, int line, char tetrimo[4][4], int 
 	while (place==1){
 		for (int i =0; i< 4; i++){
 			for (int j= 0; j< 4 ;j++){
-				if (tetrimo[i][j] == '@' && game[i][j] == '@'){
+				if (tetrimo[i][j] == '@' && game[line+i][colomn + j] == '@'){
 					place = 0;
 				}
 			}
@@ -42,10 +42,8 @@ int check_room(char game[10][10], int colomn, int line, char tetrimo[4][4], int 
 int get_lowest_line(char game[10][10], int colomn, char tetrimo[4][4], int lowest_block_x, int lowest_block_y){
 	// This fonction return the index number of the lowest line that isn't already '@'
 	// If colomn is alredy full it returns -1
-	int check = 0; 
-	int ln =10;
-	int i = 1;
-	while(i > 0){
+	int ln =9;
+	while(ln >= 0){
 		if( game[ln][colomn] == '_'){
 			if ( check_room(game,colomn,ln,tetrimo[4][4], lowest_block_x, lowest_block_y) == 1){
 				return ln;
@@ -68,13 +66,18 @@ int get_lowest_line(char game[10][10], int colomn, char tetrimo[4][4], int lowes
 		
 	
 
-void place_block(char tetrimimo[4][4], int colomn, char game[10][10], int lowest_block_x, int lowest_block_y){
+void place_block(char tetrimimo[4][4], char game[10][10], int lowest_block_x, int lowest_block_y){
+	int colomn;
 	puts("Choose colomn.");
 	scanf("%d",&colomn);
 	// 1 tetrimimo is only composed of 4 blocks
 	int line;
-	int i=1;
-	line = get_lowest_line(game, colomn + lowest_block_y, tetrimimo, lowest_block_x,lowest_block_y);
+	/*
+	int col_lw = colomn + lowest_block_y;
+	if ( col_lw >10){
+		col_lw = 10;
+	}*/
+	line = get_lowest_line(game, colomn, tetrimimo, lowest_block_x,lowest_block_y);
 	while(line!=-1){
 		for(int i=0; i< 4; i++){
 			for(int j = 0; j< 4; j++){
@@ -101,6 +104,9 @@ int main(int argc, char **argv)
 		}
 	}
 	display(game);
+	
 	char cube[4][4] = {{'@','@','_','_'},{'@','@','_','_'},{'_','_','_','_'},{'_','_','_','_'}};
+	place_block(cube, game,1,1);
+	
 	return 0;
 }	
