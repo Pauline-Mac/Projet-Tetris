@@ -24,7 +24,7 @@ void display(char tab[10][10]){
 	}
 }
 
-int check_room(char game[10][10], int colomn, int line, char tetrimo[4][4], int lowest_block_x, int lowest_block_y){
+int check_room(char game[10][10], int colomn, int line, char tetrimo[4][4]){
 	// check if there is room for the whole tetrimimo
 	int place=1;
 	if (place==1){
@@ -41,13 +41,13 @@ int check_room(char game[10][10], int colomn, int line, char tetrimo[4][4], int 
 }
 
 
-int get_lowest_line(char game[10][10], int colomn, char tetrimo[4][4], int lowest_block_x, int lowest_block_y){
+int get_lowest_line(char game[10][10], int colomn, char tetrimo[4][4]){
 	// This fonction return the index number of the lowest line that isn't already '@'
 	// If colomn is alredy full it returns -1
 	int ln =9;
-	while(ln >= lowest_block_y){
+	while(ln >=0){
 		if( game[ln][colomn] == '_'){
-			if ( check_room(game,colomn,ln,tetrimo, lowest_block_x, lowest_block_y) == 1){
+			if ( check_room(game,colomn,ln,tetrimo) == 1){
 				return ln;
 			}
 			else{
@@ -55,8 +55,10 @@ int get_lowest_line(char game[10][10], int colomn, char tetrimo[4][4], int lowes
 			}
 		}
 		else {
-			ln++;
+			ln--;
+			puts("ln++");
 		}
+		
 		printf("%d", ln);
 	}
 	puts("Colomn already full");
@@ -68,19 +70,15 @@ int get_lowest_line(char game[10][10], int colomn, char tetrimo[4][4], int lowes
 		
 	
 
-void place_block(char tetrimimo[4][4], char game[10][10], int lowest_block_x, int lowest_block_y){
+void place_block(char tetrimimo[4][4], char game[10][10]){
 	int colomn;
 	puts("Choose colomn.");
 	scanf("%d",&colomn);
 	//system("clear");
 	// 1 tetrimimo is only composed of 4 blocks
 	int line;
-	/*
-	int col_lw = colomn + lowest_block_y;
-	if ( col_lw >10){
-		col_lw = 10;
-	}*/
-	line = get_lowest_line(game, colomn, tetrimimo, lowest_block_x,lowest_block_y);
+	
+	line = get_lowest_line(game, colomn, tetrimimo);
 	if(line!=-1){
 		for(int i=4; i> 0; i--){
 			for(int j = 0; j< 4; j++){
@@ -109,9 +107,17 @@ int main(int argc, char **argv)
 	display(game);
 	
 	char cube[4][4] = {{'_','_','_','_'},{'_','_','_','_'},{'@','@','_','_'},{'@','@','_','_'}};
-	place_block(cube, game,1,1);
+	place_block(cube, game);
 	display(game);
-	place_block(cube, game,1,1);
+	place_block(cube, game);
+	display(game);
+	place_block(cube, game);
+	display(game);
+	place_block(cube, game);
+	display(game);
+	place_block(cube, game);
+	display(game);
+	place_block(cube, game);
 	display(game);
 	return 0;
 }	
