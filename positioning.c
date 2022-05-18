@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 typedef struct{
 	char** rotat;
 }Piece;
@@ -31,7 +32,7 @@ int check_room(char game[10][10], int colomn, int line, char tetrimo[4][4]){
 		for (int i =4; i>0; i--){
 			for (int j= 0; j< 4 ;j++){
 				if (tetrimo[i][j] == '@' && game[line+(i-3)][colomn + j] == '@'){
-					place = 0;
+					return 0;
 				}
 			}
 		}
@@ -56,12 +57,10 @@ int get_lowest_line(char game[10][10], int colomn, char tetrimo[4][4]){
 		}
 		else {
 			ln--;
-			puts("ln++");
 		}
 		
-		printf("%d", ln);
 	}
-	puts("Colomn already full");
+	puts("You can not place your tetrimimo here");
 	return -1;
 }
 
@@ -71,23 +70,21 @@ int get_lowest_line(char game[10][10], int colomn, char tetrimo[4][4]){
 	
 
 void place_block(char tetrimimo[4][4], char game[10][10]){
-	int colomn;
-	puts("Choose colomn.");
-	scanf("%d",&colomn);
-	//system("clear");
-	// 1 tetrimimo is only composed of 4 blocks
-	int line;
-	
-	line = get_lowest_line(game, colomn, tetrimimo);
-	if(line!=-1){
-		for(int i=4; i> 0; i--){
-			for(int j = 0; j< 4; j++){
-				if (tetrimimo[i][j] == '@'){
-					game[line+(i-3)][colomn + j] = '@';
-				}
+	int colomn;int line;
+	do{
+		puts("Choose colomn.");
+		scanf("%d",&colomn);
+		//system("clear");
+		line = get_lowest_line(game, colomn, tetrimimo);
+	}while (line == -1);
+	for(int i=4; i> 0; i--){
+		for(int j = 0; j< 4; j++){
+			if (tetrimimo[i][j] == '@'){
+				game[line+(i-3)][colomn + j] = '@';
 			}
 		}
-	}			
+	}
+				
 }
 
 	
