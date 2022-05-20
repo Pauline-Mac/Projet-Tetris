@@ -60,19 +60,52 @@ char* input(char alias[], int* size){
 	}
 	return aux;
 }
+void bestScoreCheck(FILE* fp, char player[], int score){
+	int verif1=0;
+	int verif2=0;
+	int best_score=0;
+	char best_player[400];
+	if(fp==NULL)
+		exit(1);
+	verif1=fscanf(fp, "%[^\n]",best_player);
+	verif2=fscanf(fp,"%d", &best_score);
+	if(verif1==verif2 && verif1==EOF){
+		printf("you are the first player, new best score = %d", score);
+		rewind(fp);
+		fprintf(fp, "%s\n", player);
+		fprintf(fp, "%d\n", score);
+	}		 
+	else if(best_score<score){ // problème à résoudre !!!
+		puts("well played, you have now the best score !!!");
+		rewind(fp);
+		fprintf(fp, "%s\n", player);
+		fprintf(fp, "%d", score);
+		fseek(fp, 0, SEEK_END);
+		fprintf(fp, "%s\n", best_player);
+		fprintf(fp, "%d\n", best_score);		
+	}
+	else{
+		printf("%s has the best score (%d)", player, best_score);
+		fseek(fp, 0, SEEK_END);
+		fprintf(fp,"%s\n%d", player, score);
+	}
+}
+
 
 int main(){
 	FILE* fp=NULL;
 	int size=0;
 	int* psize=&size;
 	char input_alias[400];
+	int score=12;
 	fp=fopen("result_saving.txt", "a+");
 	char* alias=input(input_alias,psize);
-	fprintf(fp,"%s\n", alias);
+	fclose(fp);
+	fp=fopen("result_saving.txt", "r+");
+	bestScoreCheck(fp, alias, score);
+	
 	fclose(fp);
 	free(alias);
 	return 0;
-}
-	
-	
+}	
 	
