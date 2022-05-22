@@ -42,15 +42,18 @@ void display(char tab[10][10]){
 
 int check_room(char game[10][10], int column, int line, char tetrimo[4][4]){
 	// check if there is room for the whole tetrimimo
+	// return 1 if there is enough place, 0 if not
 	int place=1;
 	if (place==1){
-		for (int i =4; i>0; i--){
+		for (int i =4; i>=0; i--){
 			for (int j= 0; j< 4 ;j++){
-				if (column +j >9){
+				if (line+(i-3) < 0 && tetrimo[i][j] == '@'){
+					return 0;
+				}
+				if ( column + j > 9 && tetrimo[i][j] == '@'){
 					return 0;
 				}
 				else if (tetrimo[i][j] == '@' && game[line+(i-3)][column + j] == '@'){
-			
 					return 0;
 				}
 			}
@@ -69,7 +72,7 @@ int get_lowest_line(char game[10][10], int column, char tetrimo[4][4]){
 	
 	int ln =9;
 	while(ln >=0){
-		if( game[ln][column] == '_' || (tetrimo[4][0]=='_')){
+		if( game[ln][column] == '_' || (tetrimo[3][0]=='_')){
 			if ( check_room(game,column,ln,tetrimo) == 1){
 				return ln;
 			}
@@ -100,7 +103,7 @@ void place_block(char tetrimimo[4][4], char game[10][10]){
 		//system("clear");
 		line = get_lowest_line(game, column, tetrimimo);
 	}while (line == -1);
-	for(int i=4; i> 0; i--){
+	for(int i=4; i>= 0; i--){
 		for(int j = 0; j< 4; j++){
 			if (tetrimimo[i][j] == '@'){
 				game[line+(i-3)][column + j] = '@';
@@ -127,7 +130,8 @@ int main(int argc, char **argv)
 	}
 	display(game);
 	
-	char cube[4][4] = {{'_','_','_','_'},{'_','_','_','_'},{'@','@','_','_'},{'_','@','@','_'}};
+	char cube[4][4] = {{'_','_','_','_'},{'@','_','_','_'},{'@','@','_','_'},{'@','_','_','_'}};
+
 	
 	place_block(cube, game);
 	display(game);
