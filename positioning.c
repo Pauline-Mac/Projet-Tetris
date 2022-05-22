@@ -46,7 +46,10 @@ int check_room(char game[10][10], int column, int line, char tetrimo[4][4]){
 	if (place==1){
 		for (int i =4; i>0; i--){
 			for (int j= 0; j< 4 ;j++){
-				if (tetrimo[i][j] == '@' && game[line+(i-3)][column + j] == '@'){
+				if (column +j >9){
+					return 0;
+				}
+				else if (tetrimo[i][j] == '@' && game[line+(i-3)][column + j] == '@'){
 			
 					return 0;
 				}
