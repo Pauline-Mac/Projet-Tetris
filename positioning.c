@@ -2,13 +2,28 @@
 #include <stdlib.h>
 
 
-typedef struct{
-	char** rotat;
-}Piece;
+
+
+/*int get_block_starting_line(char tetrimo[4][4]){
+	// return the line where the tetrimo has the first '@' in first colomn
+	int start_line = 4;
+	while (start_line >= 0){
+		if (tetrimo[start_line][0] == '@'){
+			return 4-start_line;
+		}
+		else{
+			start_line--;
+		}
+	}
+	return -1;
+}*/
+			
+		
+
 
 void display(char tab[10][10]){
 	puts("    __ _______         __         __         __   ");
-	puts("  ,' _|_     _|.-----.|  |_.----.|__|.-----.|_ `. ");
+	puts("  .' _|_     _|.-----.|  |_.----.|__|.-----.|_ `. ");
 	puts(" /  /   |   |  |  -__||   _|   _||  ||__ --|  \\  \\ ");
 	puts(" \\  \\_  |___|  |_____||____|__|  |__||_____| _/  / ");
 	puts("  `.__|                                     |__,' ");
@@ -32,11 +47,13 @@ int check_room(char game[10][10], int column, int line, char tetrimo[4][4]){
 		for (int i =4; i>0; i--){
 			for (int j= 0; j< 4 ;j++){
 				if (tetrimo[i][j] == '@' && game[line+(i-3)][column + j] == '@'){
+			
 					return 0;
 				}
 			}
 		}
 	}
+
 	return place;
 	//return 1;
 }
@@ -45,9 +62,11 @@ int check_room(char game[10][10], int column, int line, char tetrimo[4][4]){
 int get_lowest_line(char game[10][10], int column, char tetrimo[4][4]){
 	// This fonction return the index number of the lowest line that isn't already '@'
 	// If column is alredy full it returns -1
+
+	
 	int ln =9;
 	while(ln >=0){
-		if( game[ln][column] == '_'){
+		if( game[ln][column] == '_' || (tetrimo[4][0]=='_')){
 			if ( check_room(game,column,ln,tetrimo) == 1){
 				return ln;
 			}
@@ -58,6 +77,7 @@ int get_lowest_line(char game[10][10], int column, char tetrimo[4][4]){
 		else {
 			ln--;
 		}
+
 		
 	}
 	puts("You can not place your tetrimimo here");
@@ -84,6 +104,7 @@ void place_block(char tetrimimo[4][4], char game[10][10]){
 			}
 		}
 	}
+
 				
 }
 
@@ -103,7 +124,8 @@ int main(int argc, char **argv)
 	}
 	display(game);
 	
-	char cube[4][4] = {{'_','_','_','_'},{'_','_','_','_'},{'@','@','_','_'},{'@','@','_','_'}};
+	char cube[4][4] = {{'_','_','_','_'},{'_','_','_','_'},{'@','@','_','_'},{'_','@','@','_'}};
+	
 	place_block(cube, game);
 	display(game);
 	place_block(cube, game);
@@ -116,5 +138,6 @@ int main(int argc, char **argv)
 	display(game);
 	place_block(cube, game);
 	display(game);
+
 	return 0;
 }	
