@@ -52,7 +52,7 @@ int get_lowest_line(char game[10][10], int column, char tetrimo[4][4]){
 				return ln;
 			}
 			else{
-				ln++;
+				ln--;
 			}
 		}
 		else {
