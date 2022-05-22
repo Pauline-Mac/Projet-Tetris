@@ -6,26 +6,59 @@ int main(){
 	FILE* fp=NULL;
 	fp=fopen("test.txt", "r+");
 	int nbline = 0;
-	char alias[100];
-	int ScorePlayer = 12;
-	puts("Entrer alias");
-	scanf("%s",alias);
-	/* adds \n between the last caractere of name and \0 caractere because
-	 strcomp() also compares \n at end of line in result.txt*/
-	alias[strlen(alias)] = '\n';
-	alias[strlen(alias)+1] = '\0';
-	char line[100];
+	char alias[101];
+	int ScorePlayer = 15;
+	int input = 0;
+	int updateScore = 0;
+	while(input==0){
+		puts("Entrer alias  ( max 100 ) ");
+		fgets ( alias, 101, stdin );
+		//checks if input is not \n
+		if (strcmp(alias,"\n") != 0){
+			input = 1;
+		}
+	}
+	
+	char line[101];
+	
 	// check if username already exists
 	while ( fgets(line,101,fp)!=NULL){
 		nbline++;
-		if (strcmp(line,alias) == 0){
+		if (strcmp(line,alias) == 0 && updateScore == 0){
 			puts("WELCOME BACK");
+			updateScore = 1;
 		}
 		
 	}
-	rewind(fp);
-	// at end of game
 	
+	
+	// at end of game
+	if (nbline == 1){
+		fseek(fp, 0, SEEK_SET);
+	}
+	if (updateScore !=1){
+		fprintf(fp, "%s", alias);
+		fprintf(fp, "%d\n", ScorePlayer);
+	}
+	else{
+		fseek(fp, 0, SEEK_SET);
+		while ( fgets(line,101,fp)!=NULL){
+			
+			if (strcmp(line,alias) == 0){
+				char oldScoreTab[101];
+				fgets(oldScoreTab,101,fp);
+				int oldScore = atoi(oldScoreTab);
+				
+				if ( ScorePlayer > oldScore){
+					fseek(fp, -strlen(oldScoreTab), SEEK_CUR);
+					fprintf(fp, "%d\n", ScorePlayer);
+				}
+			}
+		}
+		
+	}
+	
+	rewind(fp);
 	
 	// check if first player
 	if (nbline == 1){
