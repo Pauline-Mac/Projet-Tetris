@@ -47,24 +47,27 @@ const char PIECE_7[4][4][4] = {
 };
 
 int display_rotation(const char tab[][4][4]){
-	for(int y=0; y<4;y++){
-		printf("  %d   ",y);
-		
-		for (int i =0; i<4; i++){
-			for(int j=0; j<4;j++){
-				printf("%c ",tab[y][i][j]);
+	int rotat_number=-1;
+	int verif=0;
+	int c;
+	
+	// display every rotation
+	puts(" 0     1      2      3");
+	for (int i=0; i<4; i++){
+		for (int y=0; y<4; y++){
+			for (int j=0; j<4;j++){
+				printf("%c",tab[y][i][j]);
 			}
-			puts("");
+			printf("   ");
 		}
 		puts("");
 	}
-	int rotat_number=-1;
-	int verif=0;
+	
+	
+	// gets correct rotation number
 	do {
 		puts("Enter rotation number");
 		verif=scanf("%d",&rotat_number);
-		puts("After Scanf");
-		int c;
 		while ((c = getchar()) != '\n' && c != EOF) { }
 		
 		
