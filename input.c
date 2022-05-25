@@ -22,7 +22,6 @@ int main(){
 	while(input==0){
 		puts("Entrer alias  ( max 100 ) ");
 		fgets ( alias, 101, stdin );
-		input = 1;
 		
 		//checks if input is not \n
 		if (strcmp(alias,"\n") != 0){
