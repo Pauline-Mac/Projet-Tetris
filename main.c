@@ -134,7 +134,6 @@ int check_room(char game[10][10], int column, int line, const char tetrimo[4][4]
 	}
 
 	return place;
-	//return 1;
 }
 
 
@@ -172,6 +171,8 @@ void place_block(const char tetrimimo[4][4], char game[10][10]){
 	int column;int line;
 	do{
 		puts("Choose column.");
+		// ATTENTION IL FAUT FAIRE UNE BOUCLE AVEC LE TEST
+		
 		scanf("%d",&column);
 		//system("clear");
 		line = get_lowest_line(game, column, tetrimimo);
