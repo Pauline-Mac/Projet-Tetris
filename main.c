@@ -121,9 +121,12 @@ int check_room(char game[10][10], int column, int line, const char tetrimo[4][4]
 		for (int i =4; i>=0; i--){
 			for (int j= 0; j< 4 ;j++){
 				if (line+(i-3) < 0 && tetrimo[i][j] == '@'){
-					return 0;
+					//end game
+					puts("OVERFLOW");
+					return -1;
 				}
 				if ( column + j > 9 && tetrimo[i][j] == '@'){
+					printf("column exceeded");
 					return 0;
 				}
 				else if (tetrimo[i][j] == '@' && game[line+(i-3)][column + j] == '@'){
@@ -144,7 +147,14 @@ int get_lowest_line(char game[10][10], int column, const char tetrimo[4][4]){
 	
 	int ln =9;
 	while(ln >=0){
+		if (game[0][column] == '@'){
+			return -2;
+		}
 		if( game[ln][column] == '_' || (tetrimo[3][0]=='_')){
+			if ( check_room(game,column,ln,tetrimo) == -1){
+				// end game
+				return -2;
+			}
 			if ( check_room(game,column,ln,tetrimo) == 1){
 				return ln;
 			}
@@ -167,16 +177,23 @@ int get_lowest_line(char game[10][10], int column, const char tetrimo[4][4]){
 		
 	
 
-void place_block(const char tetrimimo[4][4], char game[10][10]){
-	int column;int line;
-	do{
+int place_block(const char tetrimimo[4][4], char game[10][10]){
+	int column;int line=-1;int check;int ch;
+	
+	do {
 		puts("Choose column.");
-		// ATTENTION IL FAUT FAIRE UNE BOUCLE AVEC LE TEST
-		
-		scanf("%d",&column);
-		//system("clear");
+		check=scanf("%d",&column);
+		while ((ch = getchar()) != '\n' && ch != EOF) { }
 		line = get_lowest_line(game, column, tetrimimo);
-	}while (line == -1);
+		if ( line == -2){
+			return 0;
+		}
+		
+	}while( line == -1 || check != 1 || column < 0 || column >= 10 );
+	
+	//system("clear");
+		
+
 	for(int i=4; i>= 0; i--){
 		for(int j = 0; j< 4; j++){
 			if (tetrimimo[i][j] == '@'){
@@ -184,9 +201,25 @@ void place_block(const char tetrimimo[4][4], char game[10][10]){
 			}
 		}
 	}
-
+	return 1;
 				
 }
+
+void end_game(){
+	system("clear");
+	puts("        Your block exceeded the grid");
+	sleep (3);
+	puts("   _____          __  __ ______    ______      ________ _____ ");
+	puts("  / ____|   /\\   |  \\/  |  ____|  / __ \\ \\    / /  ____|  __ \\ ");
+	puts(" | |  __   /  \\  | \\  / | |__    | |  | \\ \\  / /| |__  | |__) |");
+	puts(" | | |_ | / /\\ \\ | |\\/| |  __|   | |  | |\\ \\/ / |  __| |  _  /");
+	puts(" | |__| |/ ____ \\| |  | | |____  | |__| | \\  /  | |____| | \\ \\");
+	puts("  \\_____/_/    \\_\\_|  |_|______|  \\____/   \\/   |______|_|  \\_\\");
+	sleep(3);
+	exit(0);
+	
+}
+
 
 
 int main(int argc, char **argv)
@@ -220,47 +253,80 @@ int main(int argc, char **argv)
 	display(game);
 	
 	
-	
 	srand(time(NULL));
-	int a=1;
-	while (a==1){
+	while (playing==1){
 		tetrimimo=rand()%7;
 	
 		switch (tetrimimo){
 			case 0:
 				rotat_number_piece = display_rotation(PIECE_1);
-				place_block(PIECE_1[rotat_number_piece],game);
-				display(game);
+				if (place_block(PIECE_1[rotat_number_piece],game) == 1){
+					display(game);
+				}
+				else {
+					end_game();
+					playing = 0;
+				}
 				break;
 			case 1:
 				rotat_number_piece =display_rotation(PIECE_2);
-				place_block(PIECE_2[rotat_number_piece],game);
-				display(game);
+				if (place_block(PIECE_2[rotat_number_piece],game)==1){
+					display(game);
+				}
+				else {
+					end_game();
+					playing = 0;
+				}
 				break;
 			case 2:
 				rotat_number_piece =display_rotation(PIECE_3);
-				place_block(PIECE_3[rotat_number_piece],game);
-				display(game);
+				if (place_block(PIECE_3[rotat_number_piece],game)==1){
+					display(game);
+				}
+				else {
+					end_game();
+					playing = 0;
+				}
 				break;
 			case 3:
 				rotat_number_piece =display_rotation(PIECE_4);
-				place_block(PIECE_4[rotat_number_piece],game);
-				display(game);
+				if (place_block(PIECE_4[rotat_number_piece],game)==1){
+					display(game);
+				}
+				else {
+					end_game();
+					playing = 0;
+				}
 				break;
 			case 4:
 				rotat_number_piece =display_rotation(PIECE_5);
-				place_block(PIECE_5[rotat_number_piece],game);
-				display(game);
+				if (place_block(PIECE_5[rotat_number_piece],game)==1){
+					display(game);
+				}
+				else {
+					end_game();
+					playing = 0;
+				}
 				break;
 			case 5:
 				rotat_number_piece =display_rotation(PIECE_6);
-				place_block(PIECE_6[rotat_number_piece],game);
-				display(game);
+				if (place_block(PIECE_6[rotat_number_piece],game)==1){
+					display(game);
+				}
+				else {
+					end_game();
+					playing = 0;
+				}
 				break;
 			case 6:
 				rotat_number_piece =display_rotation(PIECE_7);
-				place_block(PIECE_7[rotat_number_piece],game);
-				display(game);
+				if (place_block(PIECE_7[rotat_number_piece],game)==1){
+					display(game);
+				}
+				else {
+					end_game();
+					playing = 0;
+				}
 				break;
 			}
 	}
