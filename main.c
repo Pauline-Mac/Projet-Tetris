@@ -149,7 +149,7 @@ int get_lowest_line(char game[10][10], int column, const char tetrimo[4][4]){
 
 	int ln =9;
 	while(ln >=0){
-		printf("\nln: %d game[%d][%d]= %c tetrimimo[3][0] = %c\n", ln, ln, column,game[ln][column], tetrimo[3][0]);
+		
 		if (game[0][column] == '@'){
 			return -2;
 		}
