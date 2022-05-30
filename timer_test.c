@@ -4,42 +4,34 @@
 #include <unistd.h>
 #include <string.h>
 
-int input(int g){
-	char c;
-	char* pc=&c;
-	c=fgetc(stdin);
-	//checks if input is not \n
-	if (strcmp(pc,"\n") != 0){
-		g = atoi(pc);
-	}
-	return g;
-
-}
 
 int main ()
 {
-	int g=-1;
-   time_t ta;
-   time_t tb;
-
-   time (&ta);
-	
-	printf("%ld\n", ta);
-	
-	tb=ta;
-	while(tb-ta<10 && g==-1){
-		sleep(1);
-		time(&tb);
-
-		printf("%ld\n", tb-ta);	
-		g=input(g);
+	int g=0;
+	long start;
+	long end;
+	char c;
+	char* pc=&c;
+	start=time (NULL);
+	do{
+	c=fgetc(stdin);
+	//checks if input is not \n
+	if (strcmp(pc,"\n") != 0){
+		g=1;
 	}
-	if(tb-ta>10){
-		puts("too slow !!!!!!");
-	}
-	else
-		printf("%d", g);
+	}while(g==0);
+	end=time(NULL);;
 	
+	if(end-start>5){
+		printf("%ld\n", end-start);
+		puts("too slow!!");
+	}
+	else{
+		printf("%c\n", c);
+		printf("%ld", end-start);
+	}
+		
    return 0;
 }
+
 
