@@ -122,11 +122,11 @@ int check_room(char game[10][10], int column, int line, const char tetrimo[4][4]
 			for (int j= 0; j< 4 ;j++){
 				if (line+(i-3) < 0 && tetrimo[i][j] == '@'){
 					//end game
-					puts("OVERFLOW");
+					
 					return -1;
 				}
 				if ( column + j > 9 && tetrimo[i][j] == '@'){
-					printf("column exceeded");
+				
 					return 0;
 				}
 				else if (tetrimo[i][j] == '@' && game[line+(i-3)][column + j] == '@'){
