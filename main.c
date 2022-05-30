@@ -66,9 +66,11 @@ int display_rotation(const char tab[][4][4]){
 	int c;
 	
 	// display every rotation
-	puts(" 0     1      2      3");
+	puts("\n");
+	puts("     0        1         2          3");
 	for (int i=0; i<4; i++){
 		for (int y=0; y<4; y++){
+			printf("    ");
 			for (int j=0; j<4;j++){
 				printf("%c",tab[y][i][j]);
 			}
@@ -100,6 +102,7 @@ void display(char tab[10][10]){
 	puts(" \\  \\_  |___|  |_____||____|__|  |__||_____| _/  / ");
 	puts("  `.__|                                     |__,' ");
 	puts("");
+	puts("                0 1 2 3 4 5 6 7 8 9");
 	puts("");
 	
 	for (int i=0; i<10; i++){
@@ -144,29 +147,25 @@ int get_lowest_line(char game[10][10], int column, const char tetrimo[4][4]){
 	// This fonction return the index number of the lowest line that isn't already '@'
 	// If column is alredy full it returns -1
 
-	
 	int ln =9;
 	while(ln >=0){
+		printf("\nln: %d game[%d][%d]= %c tetrimimo[3][0] = %c\n", ln, ln, column,game[ln][column], tetrimo[3][0]);
 		if (game[0][column] == '@'){
 			return -2;
 		}
-		if( game[ln][column] == '_' || (tetrimo[3][0]=='_')){
-			if ( check_room(game,column,ln,tetrimo) == -1){
-				// end game
-				return -2;
-			}
-			if ( check_room(game,column,ln,tetrimo) == 1){
-				return ln;
-			}
-			else{
-				ln--;
-			}
+		
+		printf("\nln: %d\n", ln);
+		if ( check_room(game,column,ln,tetrimo) == -1){
+			// end game
+			return -2;
 		}
-		else {
+		if ( check_room(game,column,ln,tetrimo) == 1){
+			return ln;
+		}
+		else{
 			ln--;
 		}
-
-		
+	
 	}
 	puts("You can not place your tetrimimo here");
 	return -1;
@@ -205,16 +204,17 @@ int place_block(const char tetrimimo[4][4], char game[10][10]){
 				
 }
 
+
 void end_game(){
 	system("clear");
-	puts("        Your block exceeded the grid");
+	puts("                 Your block exceeded the grid");
 	sleep (3);
-	puts("   _____          __  __ ______    ______      ________ _____ ");
-	puts("  / ____|   /\\   |  \\/  |  ____|  / __ \\ \\    / /  ____|  __ \\ ");
-	puts(" | |  __   /  \\  | \\  / | |__    | |  | \\ \\  / /| |__  | |__) |");
-	puts(" | | |_ | / /\\ \\ | |\\/| |  __|   | |  | |\\ \\/ / |  __| |  _  /");
-	puts(" | |__| |/ ____ \\| |  | | |____  | |__| | \\  /  | |____| | \\ \\");
-	puts("  \\_____/_/    \\_\\_|  |_|______|  \\____/   \\/   |______|_|  \\_\\");
+	puts("     _____          __  __ ______    ______      ________ _____ ");
+	puts("    / ____|   /\\   |  \\/  |  ____|  / __ \\ \\    / /  ____|  __ \\ ");
+	puts("   | |  __   /  \\  | \\  / | |__    | |  | \\ \\  / /| |__  | |__) |");
+	puts("   | | |_ | / /\\ \\ | |\\/| |  __|   | |  | |\\ \\/ / |  __| |  _  /");
+	puts("   | |__| |/ ____ \\| |  | | |____  | |__| | \\  /  | |____| | \\ \\");
+	puts("    \\_____/_/    \\_\\_|  |_|______|  \\____/   \\/   |______|_|  \\_\\");
 	sleep(3);
 	exit(0);
 	
@@ -246,7 +246,6 @@ int main(int argc, char **argv)
 	
 	if(playing==1){
 		system("clear");
-		puts("GAME");
 	}
 	
 	create_game(game);
@@ -255,7 +254,9 @@ int main(int argc, char **argv)
 	
 	srand(time(NULL));
 	while (playing==1){
+		
 		tetrimimo=rand()%7;
+		
 	
 		switch (tetrimimo){
 			case 0:
