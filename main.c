@@ -64,6 +64,8 @@ int display_rotation(const char tab[][4][4]){
 	int rotat_number=-1;
 	int verif=0;
 	int c;
+	long start;
+	long end;
 	
 	// display every rotation
 	puts("\n");
@@ -81,6 +83,8 @@ int display_rotation(const char tab[][4][4]){
 	
 	
 	// gets correct rotation number
+	puts("You have 5sec");
+	start=time (NULL);
 	do {
 		puts("Enter rotation number");
 		verif=scanf("%d",&rotat_number);
@@ -88,6 +92,13 @@ int display_rotation(const char tab[][4][4]){
 		
 		
 	}while( verif != 1 || rotat_number < 0 || rotat_number >= 4);
+	end=time(NULL);
+	
+	if(end-start>5){
+		rotat_number = rand()%4;
+		puts("too slow!!");
+		printf("Your rotation number is %d\n",rotat_number);
+	}
 	return rotat_number;
 	
 }
@@ -96,6 +107,7 @@ int display_rotation(const char tab[][4][4]){
 
 /*_________This fonction display tetris logo and game grid_______*/
 void display(char tab[10][10]){
+	
 	puts("    __ _______         __         __         __   ");
 	puts("  ,' _|_     _|.-----.|  |_.----.|__|.-----.|_ `. ");
 	puts(" /  /   |   |  |  -__||   _|   _||  ||__ --|  \\  \\ ");
@@ -143,7 +155,7 @@ int check_room(char game[10][10], int column, int line, const char tetrimo[4][4]
 }
 
 
-int get_lowest_line(char game[10][10], int column, const char tetrimo[4][4]){
+int get_lowest_line(char game[10][10], int column, const char tetrimo[4][4], int random){
 	// This fonction return the index number of the lowest line that isn't already '@'
 	// If column is alredy full it returns -1
 
@@ -154,7 +166,6 @@ int get_lowest_line(char game[10][10], int column, const char tetrimo[4][4]){
 			return -2;
 		}
 		
-		printf("\nln: %d\n", ln);
 		if ( check_room(game,column,ln,tetrimo) == -1){
 			// end game
 			return -2;
@@ -167,7 +178,9 @@ int get_lowest_line(char game[10][10], int column, const char tetrimo[4][4]){
 		}
 	
 	}
-	puts("You can not place your tetrimimo here");
+	if (random == 0){
+		puts("You can not place your tetrimimo here");
+	}
 	return -1;
 }
 
@@ -177,20 +190,31 @@ int get_lowest_line(char game[10][10], int column, const char tetrimo[4][4]){
 	
 
 int place_block(const char tetrimimo[4][4], char game[10][10]){
-	int column;int line=-1;int check;int ch;
-	
+	int column;int line=-1;int check;int ch;long start;long end;
+	start=time (NULL);
+	puts("You have 5sec :");
 	do {
 		puts("Choose column.");
 		check=scanf("%d",&column);
 		while ((ch = getchar()) != '\n' && ch != EOF) { }
-		line = get_lowest_line(game, column, tetrimimo);
+		line = get_lowest_line(game, column, tetrimimo,0);
 		if ( line == -2){
 			return 0;
 		}
 		
 	}while( line == -1 || check != 1 || column < 0 || column >= 10 );
+	end=time (NULL);
+
+	if(end-start>5){
+		puts("too slow!!");
+		do{
+			column = rand()%10;
+			line = get_lowest_line(game, column, tetrimimo,1);
+		}while(line == -1);
+		printf("Your column is %d\n",column);
+		sleep(2);
+	}
 	
-	//system("clear");
 		
 
 	for(int i=4; i>= 0; i--){
@@ -204,6 +228,46 @@ int place_block(const char tetrimimo[4][4], char game[10][10]){
 				
 }
 
+int verif_line (char tab[][10], int line){
+	for(int i=0;i<10;i++){
+		if(tab[line][i]=='_'){
+			return 0;
+		}
+	}
+	return 1;
+}
+
+void eraser(char tab[][10], int line){
+	for(int i=0;i<10;i++){
+		tab[line][i]='_';
+	}
+}
+
+
+void table_descent (char tab[][10], int line){
+	for(int i=line;i>0;i--){
+		for(int j=0;j<10;j++){
+			tab[i][j]=tab[i-1][j];
+		}
+	}
+	for(int j=0;j<10;j++){
+		tab[0][j]='_';	
+	}
+}
+
+int check_line_for_score(char tab[10][10], int* scr){
+	int verif = 0;
+	for (int i=0;i<10;i++){
+		verif=verif_line(tab, i);
+		if(verif==1){
+			*scr+=10;
+			eraser(tab, i);
+			table_descent(tab, i);
+			return 1;
+		}
+	}
+	return 0;
+}
 
 void end_game(){
 	system("clear");
@@ -230,7 +294,9 @@ int main(int argc, char **argv)
 	int c=0;
 	
 	int tetrimimo;
-	int rotat_number_piece;;
+	int rotat_number_piece;
+	
+	int score=0;
 	
 	
 	puts("------------------WELCOME-------------------------");
@@ -263,6 +329,11 @@ int main(int argc, char **argv)
 				rotat_number_piece = display_rotation(PIECE_1);
 				if (place_block(PIECE_1[rotat_number_piece],game) == 1){
 					display(game);
+					if (check_line_for_score(game,&score)==1){
+						sleep(1);
+						system("clear");
+						display(game);
+					}
 				}
 				else {
 					end_game();
@@ -273,6 +344,11 @@ int main(int argc, char **argv)
 				rotat_number_piece =display_rotation(PIECE_2);
 				if (place_block(PIECE_2[rotat_number_piece],game)==1){
 					display(game);
+					if (check_line_for_score(game,&score)==1){
+						sleep(1);
+						system("clear");
+						display(game);
+					}
 				}
 				else {
 					end_game();
@@ -283,6 +359,11 @@ int main(int argc, char **argv)
 				rotat_number_piece =display_rotation(PIECE_3);
 				if (place_block(PIECE_3[rotat_number_piece],game)==1){
 					display(game);
+					if (check_line_for_score(game,&score)==1){
+						sleep(1);
+						system("clear");
+						display(game);
+					}
 				}
 				else {
 					end_game();
@@ -293,6 +374,11 @@ int main(int argc, char **argv)
 				rotat_number_piece =display_rotation(PIECE_4);
 				if (place_block(PIECE_4[rotat_number_piece],game)==1){
 					display(game);
+					if (check_line_for_score(game,&score)==1){
+						sleep(1);
+						system("clear");
+						display(game);
+					}
 				}
 				else {
 					end_game();
@@ -303,6 +389,11 @@ int main(int argc, char **argv)
 				rotat_number_piece =display_rotation(PIECE_5);
 				if (place_block(PIECE_5[rotat_number_piece],game)==1){
 					display(game);
+					if (check_line_for_score(game,&score)==1){
+						sleep(1);
+						system("clear");
+						display(game);
+					}
 				}
 				else {
 					end_game();
@@ -313,6 +404,11 @@ int main(int argc, char **argv)
 				rotat_number_piece =display_rotation(PIECE_6);
 				if (place_block(PIECE_6[rotat_number_piece],game)==1){
 					display(game);
+					if (check_line_for_score(game,&score)==1){
+						sleep(1);
+						system("clear");
+						display(game);
+					}
 				}
 				else {
 					end_game();
@@ -323,6 +419,11 @@ int main(int argc, char **argv)
 				rotat_number_piece =display_rotation(PIECE_7);
 				if (place_block(PIECE_7[rotat_number_piece],game)==1){
 					display(game);
+					if (check_line_for_score(game,&score)==1){
+						system("clear");
+						sleep(1);
+						display(game);
+					}
 				}
 				else {
 					end_game();
@@ -335,4 +436,3 @@ int main(int argc, char **argv)
 	
 	return 0;
 }
-
