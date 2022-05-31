@@ -6,7 +6,8 @@ Vous avez 5 secondes pour choisir la rotation ainsi que la colonne où vous voul
 
 Concernant le placement de la pièce, celle-ci se mettra dans la colonne choisie à partir de l'@ le plus bas à gauche.
 
-Pour lancer le jeu, vous pouvez utiliser le makefile qui vous permettra de compiler et de créer l'executable (avec la commande make). Lorsque çe sera fait, si vous souhaitez supprimer les fichiers en .o créés ainsi que l'executable, vous pouvez utiliser la commande make clear.
+Pour lancer le jeu, vous pouvez utiliser le makefile qui vous permettra de compiler et de créer l'executable (avec la commande make). Lorsque çe sera fait, si vous souhaitez supprimer les fichiers en .o créés, vous pouvez utiliser la commande make clear. Pour executer le programme, ouvrez un terminal et entrez la ligne de commande suivante : ./exec
+
 
 BON JEU !
 
