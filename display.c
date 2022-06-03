@@ -87,6 +87,3 @@ void end_game(){
 	
 }
 
-int main(){
-	return 0;
-}
