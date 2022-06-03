@@ -1,4 +1,4 @@
-#include 'name_manager.h'
+#include "name_manager.h"
 
 
 void get_alias(char alias[101], FILE* fp, int* nbline, int* updateScore){
