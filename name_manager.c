@@ -1,4 +1,4 @@
-#include 'input.h'
+#include 'name_manager.h'
 
 
 void get_alias(char alias[101], FILE* fp, int* nbline, int* updateScore){
@@ -35,9 +35,9 @@ void get_alias(char alias[101], FILE* fp, int* nbline, int* updateScore){
 		}
 		
 	}
-}	
-	
-	
+}
+
+
 void end_game_score(char alias[101], int* ScorePlayer,FILE* fp, int* updateScore, int* nbline){
 	
 	
@@ -91,7 +91,7 @@ void end_game_score(char alias[101], int* ScorePlayer,FILE* fp, int* updateScore
 		usernameScore = atoi(usernameScoreTab);
 		printf("player: %s your score is : %d\n", username, usernameScore);
 		// saves best score and best score username
-		if ( usernameScore > bestscore){
+		if ( usernameScore >= bestscore){
 			bestscore = usernameScore;
 			strcpy(BestScoreUsername, username);
 		}
@@ -100,4 +100,6 @@ void end_game_score(char alias[101], int* ScorePlayer,FILE* fp, int* updateScore
 	printf("The best score is: %d scored by %s\n", bestscore,BestScoreUsername);
 	
 	fclose(fp);
+	sleep(3);
+	exit(0);
 }

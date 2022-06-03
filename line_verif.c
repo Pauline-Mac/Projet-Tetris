@@ -1,12 +1,10 @@
-#include <stdio.h>
-#include <time.h>
-#include <stdlib.h>
-
-#define SIZE 10
+#include 'line_verif.h'
 
 
-int verif_line (char tab[][SIZE], int line){
-	for(int i=0;i<SIZE;i++){
+
+
+int verif_line (char tab[][10], int line){
+	for(int i=0;i<10;i++){
 		if(tab[line][i]=='_'){
 			return 0;
 		}
@@ -14,64 +12,34 @@ int verif_line (char tab[][SIZE], int line){
 	return 1;
 }
 
-void eraser(char tab[][SIZE], int line){
-	for(int i=0;i<SIZE;i++){
+void eraser(char tab[][10], int line){
+	for(int i=0;i<10;i++){
 		tab[line][i]='_';
 	}
 }
 
 
-void table_descent (char tab[][SIZE], int line){
+void table_descent (char tab[][10], int line){
 	for(int i=line;i>0;i--){
-		for(int j=0;j<SIZE;j++){
+		for(int j=0;j<10;j++){
 			tab[i][j]=tab[i-1][j];
 		}
 	}
-	for(int j=0;j<SIZE;j++){
+	for(int j=0;j<10;j++){
 		tab[0][j]='_';	
 	}
 }
 
-void display_tab(char tab[][SIZE]){
-	for(int i=0;i<SIZE;i++){
-		for(int j=0;j<SIZE;j++){
-			printf("%c|", tab[i][j]);
-		}
-		puts("");
-	}
-}	
-
-int main(){
-	int verif=0;
-	int score=0;
-	char tab[SIZE][SIZE];
-	//tab with full line
-	for(int i=0;i<SIZE;i++){
-		for(int j=0;j<SIZE;j++){
-			if (i==4)
-				tab[i][j]='@';
-			else if(j%2==0)
-				tab[i][j]='@';
-			else
-				tab[i][j]='_';
-		}
-		puts("");
-	}
-	display_tab(tab);
-	// verification if full line
-	for (int i=0;i<SIZE;i++){
+int check_line_for_score(char tab[10][10], int* scr){
+	int verif = 0;
+	for (int i=0;i<10;i++){
 		verif=verif_line(tab, i);
-		printf("%d\n", verif);
 		if(verif==1){
-			score+=10;
+			*scr+=10;
 			eraser(tab, i);
 			table_descent(tab, i);
+			return 1;
 		}
 	}
-	display_tab(tab);
-	puts("");
-	
-	
-
 	return 0;
 }
