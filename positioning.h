@@ -1,7 +1,10 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <unistd.h>
+#ifndef POSITIONING_H
+  #define POSITIONING_H
+  #include <stdio.h>
+  #include <stdlib.h>
+  #include <time.h>
+  #include <unistd.h>
+#endif
 
 void create_game(char GameGrid[][10]);
 
