@@ -1,4 +1,4 @@
-#include 'input.h'
+#include "input.h"
 
 
 void get_alias(char alias[101], FILE* fp, int* nbline, int* updateScore){
