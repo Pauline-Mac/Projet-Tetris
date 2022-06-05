@@ -1,7 +1,7 @@
 #include "positioning.h"
 
 
-
+// fills a 2D tab with '_'
 void create_game(char GameGrid[][10]){
 
 	for (int i = 0; i<10; i++){
@@ -14,14 +14,13 @@ void create_game(char GameGrid[][10]){
 
 int check_room(char game[10][10], int column, int line, const char tetrimo[4][4]){
 	// check if there is room for the whole tetrimimo
-	// return 1 if there is enough place, 0 if not
+	// return 1 if there is enough place, 0 if not, -1 if the piece exceeded the grid in line
 	int place=1;
 	if (place==1){
 		for (int i =4; i>=0; i--){
 			for (int j= 0; j< 4 ;j++){
 				if (line+(i-3) < 0 && tetrimo[i][j] == '@'){
 					//end game
-					
 					return -1;
 				}
 				if ( column + j > 9 && tetrimo[i][j] == '@'){
@@ -40,8 +39,7 @@ int check_room(char game[10][10], int column, int line, const char tetrimo[4][4]
 
 
 int get_lowest_line(char game[10][10], int column, const char tetrimo[4][4], int random){
-	// This fonction return the index number of the lowest line that isn't already '@'
-	// If column is alredy full it returns -1
+	// This fonction returns the index number of the lowest line that isn't already '@'
 
 	int ln =9;
 	while(ln >=0){
@@ -87,20 +85,22 @@ int place_block(const char tetrimimo[4][4], char game[10][10]){
 		}
 		
 	}while( line == -1 || check != 1 || column < 0 || column >= 10 );
+	//timer
 	end=time (NULL);
-
+	
 	if(end-start>5){
 		puts("too slow!!");
+		// check if random column number is correct
 		do{
 			column = rand()%10;
 			line = get_lowest_line(game, column, tetrimimo,1);
-		}while(line == -1);
+		}while(line == -1 || line == -2);
 		printf("Your column is %d\n",column);
 		sleep(2);
 	}
 	
 		
-
+	// place the block in the grid at correct line and column
 	for(int i=4; i>= 0; i--){
 		for(int j = 0; j< 4; j++){
 			if (tetrimimo[i][j] == '@'){
