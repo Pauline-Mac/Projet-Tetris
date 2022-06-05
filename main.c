@@ -7,6 +7,8 @@
 #include "positioning.h"
 
 
+// EVERY SHAPE
+
 const char PIECE_1[4][4][4] = {
 	{{' ',' ',' ',' '},{' ',' ',' ',' '},{' ',' ',' ',' '},{'@','@','@','@'}},// straight
 	{{'@',' ',' ',' '},{'@',' ',' ',' '},{'@',' ',' ',' '},{'@',' ',' ',' '}},
@@ -67,7 +69,7 @@ int main(int argc, char **argv)
 	int nbline = 0;
 	int* pnbline = &nbline;
 	
-	
+	// player name
 	get_alias(name,file, pnbline,pupdateScore);
 	
 	
@@ -80,7 +82,7 @@ int main(int argc, char **argv)
 	int tetrimimo;
 	int rotat_number_piece;
 	
-	
+	// welcome menu
 	
 	puts("------------------WELCOME-------------------------");
 	
@@ -97,13 +99,15 @@ int main(int argc, char **argv)
 		system("clear");
 	}
 	
+	
+	// start game
 	create_game(game);
 	display(game);
 	
 	
 	srand(time(NULL));
 	while (playing==1){
-		
+		// random shape
 		tetrimimo=rand()%7;
 		
 	
