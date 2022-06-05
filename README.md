@@ -11,3 +11,5 @@ Pour lancer le jeu, vous pouvez utiliser le makefile qui vous permettra de compi
 
 BON JEU !
 
+Pauline Maiceras
+Clément Le Coadou
