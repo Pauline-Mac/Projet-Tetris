@@ -2,7 +2,7 @@
 
 
 
-
+// checks if full line
 int verif_line (char tab[][10], int line){
 	for(int i=0;i<10;i++){
 		if(tab[line][i]=='_'){
@@ -12,13 +12,14 @@ int verif_line (char tab[][10], int line){
 	return 1;
 }
 
+// erases full line
 void eraser(char tab[][10], int line){
 	for(int i=0;i<10;i++){
 		tab[line][i]='_';
 	}
 }
 
-
+// makes line go down
 void table_descent (char tab[][10], int line){
 	for(int i=line;i>0;i--){
 		for(int j=0;j<10;j++){
@@ -29,6 +30,7 @@ void table_descent (char tab[][10], int line){
 		tab[0][j]='_';	
 	}
 }
+
 
 int check_line_for_score(char tab[10][10], int* scr){
 	int verif = 0;
