@@ -37,6 +37,8 @@ int display_rotation(const char tab[][4][4]){
 		
 		
 	}while( verif != 1 || rotat_number < 0 || rotat_number >= 4);
+	
+	//timer
 	end=time(NULL);
 	
 	if(end-start>5){
@@ -72,7 +74,7 @@ void display(char tab[10][10]){
 	}
 }
 
-
+/*_______display game over_______*/
 void end_game(){
 	system("clear");
 	puts("                 Your block exceeded the grid");
